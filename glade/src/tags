@@ -1,0 +1,44 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.6	//
+E_ADD	./util.h	/^    E_ADD,$/;"	e	enum:__anon1
+E_DIV	./util.h	/^    E_DIV,$/;"	e	enum:__anon1
+E_MUL	./util.h	/^    E_MUL$/;"	e	enum:__anon1
+E_NONE	./util.h	/^    E_NONE,$/;"	e	enum:__anon1
+E_SUB	./util.h	/^    E_SUB,$/;"	e	enum:__anon1
+GLADE_HOOKUP_OBJECT	./interface.c	22;"	d	file:
+GLADE_HOOKUP_OBJECT_NO_REF	./interface.c	26;"	d	file:
+N_	./support.h	20;"	d
+N_	./support.h	22;"	d
+N_	./support.h	32;"	d
+Operation	./util.h	/^}Operation;$/;"	t	typeref:enum:__anon1
+Q_	./support.h	18;"	d
+Q_	./support.h	31;"	d
+_	./support.h	16;"	d
+_	./support.h	17;"	d
+_	./support.h	30;"	d
+add_pixmap_directory	./support.c	/^add_pixmap_directory                   (const gchar     *directory)$/;"	f
+ans	./callbacks.c	/^int ans = 0;$/;"	v
+bindtextdomain	./support.h	29;"	d
+create_pixbuf	./support.c	/^create_pixbuf                          (const gchar     *filename)$/;"	f
+create_pixmap	./support.c	/^create_pixmap                          (GtkWidget       *widget,$/;"	f
+create_window1	./interface.c	/^create_window1 (void)$/;"	f
+dcgettext	./support.h	28;"	d
+dgettext	./support.h	27;"	d
+find_pixmap_file	./support.c	/^find_pixmap_file                       (const gchar     *filename)$/;"	f	file:
+gettext	./support.h	26;"	d
+glade_set_atk_action_description	./support.c	/^glade_set_atk_action_description       (AtkAction       *action,$/;"	f
+lookup_widget	./support.c	/^lookup_widget                          (GtkWidget       *widget,$/;"	f
+main	./main.c	/^main (int argc, char *argv[])$/;"	f
+on_button14_clicked	./callbacks.c	/^on_button14_clicked                     (GtkButton       *button,$/;"	f
+on_button1_clicked	./callbacks.c	/^on_button1_clicked                     (GtkButton       *button,$/;"	f
+on_button_op_clicked	./callbacks.c	/^on_button_op_clicked                     (GtkButton       *button,$/;"	f
+op	./callbacks.c	/^Operation op = E_NONE;$/;"	v
+operand1	./callbacks.c	/^int operand1 = 0;$/;"	v
+operand2	./callbacks.c	/^int operand2 = 0;$/;"	v
+operation	./cal_engine.c	/^int operation(int x,int y,Operation op)$/;"	f
+pixmaps_directories	./support.c	/^static GList *pixmaps_directories = NULL;$/;"	v	file:
+textdomain	./support.h	25;"	d

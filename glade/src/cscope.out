@@ -1,0 +1,2805 @@
+cscope 15 $HOME/Practice/Training/Calculator/glade/src -c               0000018306
+	@cal_engine.c
+
+1 #include
+	~"cal_engine.h
+"
+
+3 int 
+	$operation
+(int 
+x
+,int 
+y
+,
+Operation
+ 
+op
+)
+
+5 if(
+op
+==
+E_ADD
+)
+
+7 return 
+x
+ + 
+y
+;
+
+9 if(
+op
+==
+E_SUB
+)
+
+11 return 
+x
+ - 
+y
+;
+
+13 if(
+op
+==
+E_DIV
+)
+
+15 return 
+x
+ / 
+y
+;
+
+17 if(
+op
+==
+E_MUL
+)
+
+19 return 
+x
+ * 
+y
+;
+
+21 
+	}
+}
+
+	@cal_engine.h
+
+1 #include
+	~"util.h
+"
+
+3 int 
+operation
+(int,int,
+Operation
+);
+
+	@callbacks.c
+
+1 #ifdef 
+HAVE_CONFIG_H
+
+
+2 #include 
+	~<config.h
+>
+
+5 #include 
+	~<gtk/gtk.h
+>
+
+7 #include 
+	~"callbacks.h
+"
+
+8 #include 
+	~"interface.h
+"
+
+9 #include 
+	~"support.h
+"
+
+10 #include
+	~<stdlib.h
+>
+
+11 #include
+	~<string.h
+>
+
+12 #include
+	~<stdio.h
+>
+
+14 #include
+	~<iostream
+>
+
+15 #include
+	~<string
+>
+
+17 #include 
+	~"util.h
+"
+
+18 #include 
+	~"cal_engine.h
+"
+
+20 
+Operation
+ 
+	gop
+ = 
+E_NONE
+;
+
+21 int 
+	goperand1
+ = 0;
+
+22 int 
+	goperand2
+ = 0;
+
+23 int 
+	gans
+ = 0;
+
+27 
+	$on_button1_clicked
+ (
+GtkButton
+ *
+button
+,
+
+28 
+GtkEntry
+ *
+display
+)
+
+30 const char *
+disp_data
+;
+
+31 
+disp_data
+ = 
+	`gtk_entry_get_text
+ (
+display
+);
+
+32 if(
+	`strlen
+(
+disp_data
+)==0)
+
+34 
+	`gtk_entry_set_text
+(
+	`GTK_ENTRY
+(
+display
+),
+	`gtk_button_get_label
+(
+button
+));
+
+36 
+	`gtk_entry_append_text
+(
+	`GTK_ENTRY
+(
+display
+),
+	`gtk_button_get_label
+(
+button
+));
+
+39 
+	}
+}
+
+43 
+	$on_button_op_clicked
+ (
+GtkButton
+ *
+button
+,
+
+44 
+GtkEntry
+ *
+display
+)
+
+46 const char *
+disp_data
+;
+
+47 
+disp_data
+ = 
+	`gtk_entry_get_text
+ (
+display
+);
+
+48 
+std
+::
+cout
+<<
+	`gtk_button_get_label
+(
+button
+)<<std::
+endl
+;
+
+49 
+operand1
+ = 
+	`atoi
+(
+disp_data
+);
+
+50 if(!
+	`strcmp
+(
+	`gtk_button_get_label
+(
+button
+),"+")){
+
+52 
+op
+ = 
+E_ADD
+;
+
+54 if(!
+	`strcmp
+(
+	`gtk_button_get_label
+(
+button
+),"-")){
+
+56 
+op
+ = 
+E_SUB
+;
+
+58 if(!
+	`strcmp
+(
+	`gtk_button_get_label
+(
+button
+),"*")){
+
+60 
+op
+ = 
+E_MUL
+;
+
+62 if(!
+	`strcmp
+(
+	`gtk_button_get_label
+(
+button
+),"/")){
+
+64 
+op
+ = 
+E_DIV
+;
+
+66 
+	`gtk_entry_set_text
+(
+display
+,"");
+
+68 
+	}
+}
+
+72 
+	$on_button14_clicked
+ (
+GtkButton
+ *
+button
+,
+
+73 
+GtkEntry
+ *
+display
+)
+
+75 const char *
+disp_data
+;
+
+76 
+disp_data
+ = 
+	`gtk_entry_get_text
+ (
+display
+);
+
+77 
+operand2
+ = 
+	`atoi
+(
+disp_data
+);
+
+78 
+ans
+ = 
+	`operation
+(
+operand1
+,
+operand2
+,
+op
+) ;
+
+79 char 
+stringNum
+[20];
+
+80 
+	`sprintf
+(
+stringNum
+,"%d",
+ans
+);
+
+81 
+	`gtk_entry_set_text
+((
+display
+),
+stringNum
+);
+
+82 
+op
+ = 
+E_NONE
+;
+
+83 
+	}
+}
+
+	@callbacks.h
+
+1 #include 
+	~<gtk/gtk.h
+>
+
+5 
+on_button1_clicked
+ (
+GtkButton
+ *
+button
+,
+
+6 
+GtkEntry
+ *
+display
+);
+
+9 
+on_button2_clicked
+ (
+GtkButton
+ *
+button
+,
+
+10 
+GtkEntry
+ *
+display
+);
+
+13 
+on_button_op_clicked
+ (
+GtkButton
+ *
+button
+,
+
+14 
+GtkEntry
+ *
+display
+);
+
+16 
+on_button14_clicked
+ (
+GtkButton
+ *
+button
+,
+
+17 
+GtkEntry
+ *
+display
+);
+
+	@interface.c
+
+5 #ifdef 
+HAVE_CONFIG_H
+
+
+6 #include 
+	~<config.h
+>
+
+9 #include 
+	~<sys/types.h
+>
+
+10 #include 
+	~<sys/stat.h
+>
+
+11 #include 
+	~<unistd.h
+>
+
+12 #include 
+	~<string.h
+>
+
+13 #include 
+	~<stdio.h
+>
+
+15 #include 
+	~<gdk/gdkkeysyms.h
+>
+
+16 #include 
+	~<gtk/gtk.h
+>
+
+18 #include 
+	~"callbacks.h
+"
+
+19 #include 
+	~"interface.h
+"
+
+20 #include 
+	~"support.h
+"
+
+22 #define 
+	#GLADE_HOOKUP_OBJECT
+(
+component
+,
+widget
+,
+name
+) \
+
+23 
+	`g_object_set_data_full
+ (
+	`G_OBJECT
+ (
+component
+), 
+name
+, \
+
+24 
+	`gtk_widget_ref
+ (
+widget
+), (
+GDestroyNotify
+) 
+gtk_widget_unref
+)
+
+	)
+
+26 #define 
+	#GLADE_HOOKUP_OBJECT_NO_REF
+(
+component
+,
+widget
+,
+name
+) \
+
+27 
+	`g_object_set_data
+ (
+	`G_OBJECT
+ (
+component
+), 
+name
+, 
+widget
+)
+
+	)
+
+29 
+GtkWidget
+*
+
+30 
+	$create_window1
+ (void)
+
+32 
+GtkWidget
+ *
+window1
+;
+
+33 
+GtkWidget
+ *
+frame1
+;
+
+34 
+GtkWidget
+ *
+alignment1
+;
+
+35 
+GtkWidget
+ *
+vbox1
+;
+
+36 
+GtkWidget
+ *
+Display
+;
+
+37 
+GtkWidget
+ *
+hbox1
+;
+
+38 
+GtkWidget
+ *
+button1
+;
+
+39 
+GtkWidget
+ *
+button2
+;
+
+40 
+GtkWidget
+ *
+button3
+;
+
+41 
+GtkWidget
+ *
+hbox2
+;
+
+42 
+GtkWidget
+ *
+button4
+;
+
+43 
+GtkWidget
+ *
+button5
+;
+
+44 
+GtkWidget
+ *
+button6
+;
+
+45 
+GtkWidget
+ *
+hbox3
+;
+
+46 
+GtkWidget
+ *
+button7
+;
+
+47 
+GtkWidget
+ *
+button8
+;
+
+48 
+GtkWidget
+ *
+button9
+;
+
+49 
+GtkWidget
+ *
+hbox4
+;
+
+50 
+GtkWidget
+ *
+button10
+;
+
+51 
+GtkWidget
+ *
+button11
+;
+
+52 
+GtkWidget
+ *
+button12
+;
+
+53 
+GtkWidget
+ *
+button13
+;
+
+54 
+GtkWidget
+ *
+button14
+;
+
+55 
+GtkWidget
+ *
+label1
+;
+
+57 
+window1
+ = 
+	`gtk_window_new
+ (
+GTK_WINDOW_TOPLEVEL
+);
+
+58 
+	`gtk_window_set_title
+ (
+	`GTK_WINDOW
+ (
+window1
+), 
+	`_
+("window1"));
+
+60 
+frame1
+ = 
+	`gtk_frame_new
+ (
+NULL
+);
+
+61 
+	`gtk_widget_show
+ (
+frame1
+);
+
+62 
+	`gtk_container_add
+ (
+	`GTK_CONTAINER
+ (
+window1
+), 
+frame1
+);
+
+63 
+	`gtk_frame_set_shadow_type
+ (
+	`GTK_FRAME
+ (
+frame1
+), 
+GTK_SHADOW_NONE
+);
+
+65 
+alignment1
+ = 
+	`gtk_alignment_new
+ (0.5, 0.5, 1, 1);
+
+66 
+	`gtk_widget_show
+ (
+alignment1
+);
+
+67 
+	`gtk_container_add
+ (
+	`GTK_CONTAINER
+ (
+frame1
+), 
+alignment1
+);
+
+68 
+	`gtk_alignment_set_padding
+ (
+	`GTK_ALIGNMENT
+ (
+alignment1
+), 0, 0, 12, 0);
+
+70 
+vbox1
+ = 
+	`gtk_vbox_new
+ (
+FALSE
+, 0);
+
+71 
+	`gtk_widget_show
+ (
+vbox1
+);
+
+72 
+	`gtk_container_add
+ (
+	`GTK_CONTAINER
+ (
+alignment1
+), 
+vbox1
+);
+
+74 
+Display
+ = 
+	`gtk_entry_new
+ ();
+
+75 
+	`gtk_widget_show
+ (
+Display
+);
+
+76 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+vbox1
+), 
+Display
+, 
+FALSE
+, FALSE, 0);
+
+77 
+	`gtk_widget_set_size_request
+ (
+Display
+, -1, 50);
+
+78 
+	`gtk_entry_set_invisible_char
+ (
+	`GTK_ENTRY
+ (
+Display
+), 8226);
+
+79 
+	`gtk_entry_set_alignment
+(
+	`GTK_ENTRY
+ (
+Display
+), 1);
+
+81 
+hbox1
+ = 
+	`gtk_hbox_new
+ (
+FALSE
+, 0);
+
+82 
+	`gtk_widget_show
+ (
+hbox1
+);
+
+83 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+vbox1
+), 
+hbox1
+, 
+TRUE
+, TRUE, 10);
+
+85 
+button1
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("1"));
+
+86 
+	`gtk_widget_show
+ (
+button1
+);
+
+87 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox1
+), 
+button1
+, 
+FALSE
+, FALSE, 10);
+
+88 
+	`gtk_widget_set_size_request
+ (
+button1
+, 50, 50);
+
+90 
+button2
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("2"));
+
+91 
+	`gtk_widget_show
+ (
+button2
+);
+
+92 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox1
+), 
+button2
+, 
+FALSE
+, FALSE, 10);
+
+93 
+	`gtk_widget_set_size_request
+ (
+button2
+, 50, 50);
+
+95 
+button3
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("3"));
+
+96 
+	`gtk_widget_show
+ (
+button3
+);
+
+97 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox1
+), 
+button3
+, 
+FALSE
+, FALSE, 10);
+
+98 
+	`gtk_widget_set_size_request
+ (
+button3
+, 50, 50);
+
+100 
+hbox2
+ = 
+	`gtk_hbox_new
+ (
+FALSE
+, 0);
+
+101 
+	`gtk_widget_show
+ (
+hbox2
+);
+
+102 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+vbox1
+), 
+hbox2
+, 
+TRUE
+, TRUE, 10);
+
+104 
+button4
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("4"));
+
+105 
+	`gtk_widget_show
+ (
+button4
+);
+
+106 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox2
+), 
+button4
+, 
+FALSE
+, FALSE, 10);
+
+107 
+	`gtk_widget_set_size_request
+ (
+button4
+, 50, 50);
+
+109 
+button5
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("5"));
+
+110 
+	`gtk_widget_show
+ (
+button5
+);
+
+111 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox2
+), 
+button5
+, 
+FALSE
+, FALSE, 10);
+
+112 
+	`gtk_widget_set_size_request
+ (
+button5
+, 50, 50);
+
+114 
+button6
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("6"));
+
+115 
+	`gtk_widget_show
+ (
+button6
+);
+
+116 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox2
+), 
+button6
+, 
+FALSE
+, FALSE, 10);
+
+117 
+	`gtk_widget_set_size_request
+ (
+button6
+, 50, 50);
+
+119 
+hbox3
+ = 
+	`gtk_hbox_new
+ (
+FALSE
+, 0);
+
+120 
+	`gtk_widget_show
+ (
+hbox3
+);
+
+121 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+vbox1
+), 
+hbox3
+, 
+TRUE
+, TRUE, 10);
+
+123 
+button7
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("7"));
+
+124 
+	`gtk_widget_show
+ (
+button7
+);
+
+125 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox3
+), 
+button7
+, 
+FALSE
+, FALSE, 10);
+
+126 
+	`gtk_widget_set_size_request
+ (
+button7
+, 50, 50);
+
+128 
+button8
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("8"));
+
+129 
+	`gtk_widget_show
+ (
+button8
+);
+
+130 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox3
+), 
+button8
+, 
+FALSE
+, FALSE, 10);
+
+131 
+	`gtk_widget_set_size_request
+ (
+button8
+, 50, 50);
+
+133 
+button9
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("9"));
+
+134 
+	`gtk_widget_show
+ (
+button9
+);
+
+135 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox3
+), 
+button9
+, 
+FALSE
+, FALSE, 10);
+
+136 
+	`gtk_widget_set_size_request
+ (
+button9
+, 50, 50);
+
+138 
+hbox4
+ = 
+	`gtk_hbox_new
+ (
+FALSE
+, 0);
+
+139 
+	`gtk_widget_show
+ (
+hbox4
+);
+
+140 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+vbox1
+), 
+hbox4
+, 
+TRUE
+, TRUE, 10);
+
+142 
+button10
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("+"));
+
+143 
+	`gtk_widget_show
+ (
+button10
+);
+
+144 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox4
+), 
+button10
+, 
+FALSE
+, FALSE, 10);
+
+145 
+	`gtk_widget_set_size_request
+ (
+button10
+, 50, 50);
+
+147 
+button11
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("-"));
+
+148 
+	`gtk_widget_show
+ (
+button11
+);
+
+149 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox4
+), 
+button11
+, 
+FALSE
+, FALSE, 10);
+
+150 
+	`gtk_widget_set_size_request
+ (
+button11
+, 50, 50);
+
+152 
+button12
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("*"));
+
+153 
+	`gtk_widget_show
+ (
+button12
+);
+
+154 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox4
+), 
+button12
+, 
+FALSE
+, FALSE, 10);
+
+155 
+	`gtk_widget_set_size_request
+ (
+button12
+, 50, 50);
+
+157 
+button13
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("/"));
+
+158 
+	`gtk_widget_show
+ (
+button13
+);
+
+159 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+hbox4
+), 
+button13
+, 
+FALSE
+, FALSE, 10);
+
+160 
+	`gtk_widget_set_size_request
+ (
+button13
+, 50, 50);
+
+162 
+button14
+ = 
+	`gtk_button_new_with_mnemonic
+ (
+	`_
+("="));
+
+163 
+	`gtk_widget_show
+ (
+button14
+);
+
+164 
+	`gtk_box_pack_start
+ (
+	`GTK_BOX
+ (
+vbox1
+), 
+button14
+, 
+FALSE
+, FALSE, 10);
+
+165 
+	`gtk_widget_set_size_request
+ (
+button14
+, 25, 50);
+
+167 
+label1
+ = 
+	`gtk_label_new
+ (
+	`_
+("<b>frame1</b>"));
+
+168 
+	`gtk_widget_show
+ (
+label1
+);
+
+169 
+	`gtk_frame_set_label_widget
+ (
+	`GTK_FRAME
+ (
+frame1
+), 
+label1
+);
+
+170 
+	`gtk_label_set_use_markup
+ (
+	`GTK_LABEL
+ (
+label1
+), 
+TRUE
+);
+
+172 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button1
+, "clicked",
+
+173 
+	`G_CALLBACK
+ (
+on_button1_clicked
+),
+
+174 
+Display
+);
+
+175 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button2
+, "clicked",
+
+176 
+	`G_CALLBACK
+ (
+on_button1_clicked
+),
+
+177 
+Display
+);
+
+178 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button3
+, "clicked",
+
+179 
+	`G_CALLBACK
+ (
+on_button1_clicked
+),
+
+180 
+Display
+);
+
+181 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button4
+, "clicked",
+
+182 
+	`G_CALLBACK
+ (
+on_button1_clicked
+),
+
+183 
+Display
+);
+
+184 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button5
+, "clicked",
+
+185 
+	`G_CALLBACK
+ (
+on_button1_clicked
+),
+
+186 
+Display
+);
+
+187 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button6
+, "clicked",
+
+188 
+	`G_CALLBACK
+ (
+on_button1_clicked
+),
+
+189 
+Display
+);
+
+190 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button7
+, "clicked",
+
+191 
+	`G_CALLBACK
+ (
+on_button1_clicked
+),
+
+192 
+Display
+);
+
+193 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button8
+, "clicked",
+
+194 
+	`G_CALLBACK
+ (
+on_button1_clicked
+),
+
+195 
+Display
+);
+
+196 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button9
+, "clicked",
+
+197 
+	`G_CALLBACK
+ (
+on_button1_clicked
+),
+
+198 
+Display
+);
+
+199 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button10
+, "clicked",
+
+200 
+	`G_CALLBACK
+ (
+on_button_op_clicked
+),
+
+201 
+Display
+);
+
+202 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button11
+, "clicked",
+
+203 
+	`G_CALLBACK
+ (
+on_button_op_clicked
+),
+
+204 
+Display
+);
+
+205 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button12
+, "clicked",
+
+206 
+	`G_CALLBACK
+ (
+on_button_op_clicked
+),
+
+207 
+Display
+);
+
+208 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button13
+, "clicked",
+
+209 
+	`G_CALLBACK
+ (
+on_button_op_clicked
+),
+
+210 
+Display
+);
+
+211 
+	`g_signal_connect
+ ((
+gpointer
+) 
+button14
+, "clicked",
+
+212 
+	`G_CALLBACK
+ (
+on_button14_clicked
+),
+
+213 
+Display
+);
+
+216 
+	`GLADE_HOOKUP_OBJECT_NO_REF
+ (
+window1
+, window1, "window1");
+
+217 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+frame1
+, "frame1");
+
+218 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+alignment1
+, "alignment1");
+
+219 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+vbox1
+, "vbox1");
+
+220 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+Display
+, "Display");
+
+221 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+hbox1
+, "hbox1");
+
+222 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button1
+, "button1");
+
+223 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button2
+, "button2");
+
+224 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button3
+, "button3");
+
+225 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+hbox2
+, "hbox2");
+
+226 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button4
+, "button4");
+
+227 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button5
+, "button5");
+
+228 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button6
+, "button6");
+
+229 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+hbox3
+, "hbox3");
+
+230 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button7
+, "button7");
+
+231 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button8
+, "button8");
+
+232 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button9
+, "button9");
+
+233 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+hbox4
+, "hbox4");
+
+234 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button10
+, "button10");
+
+235 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button11
+, "button11");
+
+236 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button12
+, "button12");
+
+237 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button13
+, "button13");
+
+238 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+button14
+, "button14");
+
+239 
+	`GLADE_HOOKUP_OBJECT
+ (
+window1
+, 
+label1
+, "label1");
+
+241 return 
+window1
+;
+
+242 
+	}
+}
+
+	@interface.h
+
+5 
+GtkWidget
+* 
+create_window1
+ (void);
+
+	@main.c
+
+6 #ifdef 
+HAVE_CONFIG_H
+
+
+7 #include 
+	~<config.h
+>
+
+10 #include 
+	~<gtk/gtk.h
+>
+
+12 #include 
+	~"interface.h
+"
+
+13 #include 
+	~"support.h
+"
+
+16 
+	$main
+ (int 
+argc
+, char *
+argv
+[])
+
+18 
+GtkWidget
+ *
+window1
+;
+
+20 #ifdef 
+ENABLE_NLS
+
+
+21 
+	`bindtextdomain
+ (
+GETTEXT_PACKAGE
+, 
+PACKAGE_LOCALE_DIR
+);
+
+22 
+	`bind_textdomain_codeset
+ (
+GETTEXT_PACKAGE
+, "UTF-8");
+
+23 
+	`textdomain
+ (
+GETTEXT_PACKAGE
+);
+
+26 
+	`gtk_set_locale
+ ();
+
+27 
+	`gtk_init
+ (&
+argc
+, &
+argv
+);
+
+29 
+	`add_pixmap_directory
+ (
+PACKAGE_DATA_DIR
+ "/" 
+PACKAGE
+ "/pixmaps");
+
+36 
+window1
+ = 
+	`create_window1
+ ();
+
+37 
+	`gtk_widget_show
+ (
+window1
+);
+
+39 
+	`gtk_main
+ ();
+
+41 
+	}
+}
+
+	@support.c
+
+5 #ifdef 
+HAVE_CONFIG_H
+
+
+6 #include 
+	~<config.h
+>
+
+9 #include 
+	~<sys/types.h
+>
+
+10 #include 
+	~<sys/stat.h
+>
+
+11 #include 
+	~<unistd.h
+>
+
+12 #include 
+	~<string.h
+>
+
+13 #include 
+	~<stdio.h
+>
+
+15 #include 
+	~<gtk/gtk.h
+>
+
+17 #include 
+	~"support.h
+"
+
+19 
+GtkWidget
+*
+
+20 
+	$lookup_widget
+ (
+GtkWidget
+ *
+widget
+,
+
+21 const 
+gchar
+ *
+widget_name
+)
+
+23 
+GtkWidget
+ *
+parent
+, *
+found_widget
+;
+
+27 if (
+	`GTK_IS_MENU
+ (
+widget
+))
+
+28 
+parent
+ = 
+	`gtk_menu_get_attach_widget
+ (
+	`GTK_MENU
+ (
+widget
+));
+
+30 
+parent
+ = 
+widget
+->parent;
+
+31 if (!
+parent
+)
+
+32 
+parent
+ = (
+GtkWidget
+*) 
+	`g_object_get_data
+ (
+	`G_OBJECT
+ (
+widget
+), "GladeParentKey");
+
+33 if (
+parent
+ == 
+NULL
+)
+
+35 
+widget
+ = 
+parent
+;
+
+38 
+found_widget
+ = (
+GtkWidget
+*) 
+	`g_object_get_data
+ (
+	`G_OBJECT
+ (
+widget
+),
+
+39 
+widget_name
+);
+
+40 if (!
+found_widget
+)
+
+41 
+	`g_warning
+ ("Widget not found: %s", 
+widget_name
+);
+
+42 return 
+found_widget
+;
+
+43 
+	}
+}
+
+45 static 
+GList
+ *
+	gpixmaps_directories
+ = 
+NULL
+;
+
+49 
+	$add_pixmap_directory
+ (const 
+gchar
+ *
+directory
+)
+
+51 
+pixmaps_directories
+ = 
+	`g_list_prepend
+ (pixmaps_directories,
+
+52 
+	`g_strdup
+ (
+directory
+));
+
+53 
+	}
+}
+
+56 static 
+gchar
+*
+
+57 
+	$find_pixmap_file
+ (const 
+gchar
+ *
+filename
+)
+
+59 
+GList
+ *
+elem
+;
+
+62 
+elem
+ = 
+pixmaps_directories
+;
+
+63 while (
+elem
+)
+
+65 
+gchar
+ *
+pathname
+ = 
+	`g_strdup_printf
+ ("%s%s%s", (gchar*)
+elem
+->
+data
+,
+
+66 
+G_DIR_SEPARATOR_S
+, 
+filename
+);
+
+67 if (
+	`g_file_test
+ (
+pathname
+, 
+G_FILE_TEST_EXISTS
+))
+
+68 return 
+pathname
+;
+
+69 
+	`g_free
+ (
+pathname
+);
+
+70 
+elem
+ = elem->
+next
+;
+
+72 return 
+NULL
+;
+
+73 
+	}
+}
+
+76 
+GtkWidget
+*
+
+77 
+	$create_pixmap
+ (
+GtkWidget
+ *
+widget
+,
+
+78 const 
+gchar
+ *
+filename
+)
+
+80 
+gchar
+ *
+pathname
+ = 
+NULL
+;
+
+81 
+GtkWidget
+ *
+pixmap
+;
+
+83 if (!
+filename
+ || !filename[0])
+
+84 return 
+	`gtk_image_new
+ ();
+
+86 
+pathname
+ = 
+	`find_pixmap_file
+ (
+filename
+);
+
+88 if (!
+pathname
+)
+
+90 
+	`g_warning
+ (
+	`_
+("Couldn't find pixmap file: %s"), 
+filename
+);
+
+91 return 
+	`gtk_image_new
+ ();
+
+94 
+pixmap
+ = 
+	`gtk_image_new_from_file
+ (
+pathname
+);
+
+95 
+	`g_free
+ (
+pathname
+);
+
+96 return 
+pixmap
+;
+
+97 
+	}
+}
+
+100 
+GdkPixbuf
+*
+
+101 
+	$create_pixbuf
+ (const 
+gchar
+ *
+filename
+)
+
+103 
+gchar
+ *
+pathname
+ = 
+NULL
+;
+
+104 
+GdkPixbuf
+ *
+pixbuf
+;
+
+105 
+GError
+ *
+error
+ = 
+NULL
+;
+
+107 if (!
+filename
+ || !filename[0])
+
+108 return 
+NULL
+;
+
+110 
+pathname
+ = 
+	`find_pixmap_file
+ (
+filename
+);
+
+112 if (!
+pathname
+)
+
+114 
+	`g_warning
+ (
+	`_
+("Couldn't find pixmap file: %s"), 
+filename
+);
+
+115 return 
+NULL
+;
+
+118 
+pixbuf
+ = 
+	`gdk_pixbuf_new_from_file
+ (
+pathname
+, &
+error
+);
+
+119 if (!
+pixbuf
+)
+
+121 
+	`fprintf
+ (
+stderr
+, "Failed to load pixbuf file: %s: %s\n",
+
+122 
+pathname
+, 
+error
+->
+message
+);
+
+123 
+	`g_error_free
+ (
+error
+);
+
+125 
+	`g_free
+ (
+pathname
+);
+
+126 return 
+pixbuf
+;
+
+127 
+	}
+}
+
+131 
+	$glade_set_atk_action_description
+ (
+AtkAction
+ *
+action
+,
+
+132 const 
+gchar
+ *
+action_name
+,
+
+133 const 
+gchar
+ *
+description
+)
+
+135 
+gint
+ 
+n_actions
+, 
+i
+;
+
+137 
+n_actions
+ = 
+	`atk_action_get_n_actions
+ (
+action
+);
+
+138 for (
+i
+ = 0; i < 
+n_actions
+; i++)
+
+140 if (!
+	`strcmp
+ (
+	`atk_action_get_name
+ (
+action
+, 
+i
+), 
+action_name
+))
+
+141 
+	`atk_action_set_description
+ (
+action
+, 
+i
+, 
+description
+);
+
+143 
+	}
+}
+
+	@support.h
+
+5 #ifdef 
+HAVE_CONFIG_H
+
+
+6 #include 
+	~<config.h
+>
+
+9 #include 
+	~<gtk/gtk.h
+>
+
+14 #ifdef 
+ENABLE_NLS
+
+
+15 #include 
+	~<libintl.h
+>
+
+16 #undef 
+_
+
+
+17 #define 
+	#_
+(
+String
+) 
+	`dgettext
+ (
+PACKAGE
+, String)
+
+	)
+
+18 #define 
+	#Q_
+(
+String
+) 
+	`g_strip_context
+ ((String), 
+	`gettext
+ (String))
+
+	)
+
+19 #ifdef 
+gettext_noop
+
+
+20 #define 
+	#N_
+(
+String
+) 
+	`gettext_noop
+ (String)
+
+	)
+
+22 #define 
+	#N_
+(
+String
+) (String)
+
+	)
+
+25 #define 
+	#textdomain
+(
+String
+) (String)
+
+	)
+
+26 #define 
+	#gettext
+(
+String
+) (String)
+
+	)
+
+27 #define 
+	#dgettext
+(
+Domain
+,
+Message
+) (Message)
+
+	)
+
+28 #define 
+	#dcgettext
+(
+Domain
+,
+Message
+,
+Type
+) (Message)
+
+	)
+
+29 #define 
+	#bindtextdomain
+(
+Domain
+,
+Directory
+) (Domain)
+
+	)
+
+30 #define 
+	#_
+(
+String
+) (String)
+
+	)
+
+31 #define 
+	#Q_
+(
+String
+) 
+	`g_strip_context
+ ((String), (String))
+
+	)
+
+32 #define 
+	#N_
+(
+String
+) (String)
+
+	)
+
+46 
+GtkWidget
+* 
+lookup_widget
+ (GtkWidget *
+widget
+,
+
+47 const 
+gchar
+ *
+widget_name
+);
+
+51 void 
+add_pixmap_directory
+ (const 
+gchar
+ *
+directory
+);
+
+59 
+GtkWidget
+* 
+create_pixmap
+ (GtkWidget *
+widget
+,
+
+60 const 
+gchar
+ *
+filename
+);
+
+63 
+GdkPixbuf
+* 
+create_pixbuf
+ (const 
+gchar
+ *
+filename
+);
+
+66 void 
+glade_set_atk_action_description
+ (
+AtkAction
+ *
+action
+,
+
+67 const 
+gchar
+ *
+action_name
+,
+
+68 const 
+gchar
+ *
+description
+);
+
+	@util.h
+
+2 #include
+	~<iostream
+>
+
+5 
+	mE_NONE
+,
+
+6 
+	mE_ADD
+,
+
+7 
+	mE_SUB
+,
+
+8 
+	mE_DIV
+,
+
+9 
+	mE_MUL
+
+
+10 }
+	tOperation
+;
+
+	@
+1
+.
+0
+10
+108
+cal_engine.c
+cal_engine.h
+callbacks.c
+callbacks.h
+interface.c
+interface.h
+main.c
+support.c
+support.h
+util.h
