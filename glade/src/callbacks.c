@@ -21,6 +21,8 @@ Operation op = E_NONE;
 int operand1 = 0;
 int operand2 = 0;
 int ans = 0;
+int memory = 0;
+int clear = 0;
 
 
 void
@@ -33,7 +35,13 @@ on_button1_clicked                     (GtkButton       *button,
     {
 	gtk_entry_set_text(GTK_ENTRY(display),gtk_button_get_label(button));
     }else{
-        gtk_entry_append_text(GTK_ENTRY(display),gtk_button_get_label(button));
+        if(clear == 0)
+        {
+            gtk_entry_append_text(GTK_ENTRY(display),gtk_button_get_label(button));
+        }else{
+            gtk_entry_set_text(GTK_ENTRY(display),gtk_button_get_label(button));
+            clear = 0;
+        }
     }
 
 }
@@ -45,26 +53,25 @@ on_button_op_clicked                     (GtkButton       *button,
 {
     const char *disp_data;
     disp_data = gtk_entry_get_text (display);
-    std::cout<<gtk_button_get_label(button)<<std::endl;
-    operand1 = atoi(disp_data);
-    if(!strcmp(gtk_button_get_label(button),"+")){
-    //std::cout<<"Added"<<std::endl;
-       op = E_ADD;
+    if(op == E_NONE){
+        std::cout<<gtk_button_get_label(button)<<std::endl;
+        operand1 = atoi(disp_data);
+        if(!strcmp(gtk_button_get_label(button),"+")){
+           op = E_ADD;
+        }
+        if(!strcmp(gtk_button_get_label(button),"-")){
+            op = E_SUB;
+        }
+        if(!strcmp(gtk_button_get_label(button),"*")){
+             op = E_MUL;
+        }
+        if(!strcmp(gtk_button_get_label(button),"/")){
+            op = E_DIV;
+        }
+        gtk_entry_set_text(display,"");
+    }else{
+        on_button14_clicked(button,display);
     }
-    if(!strcmp(gtk_button_get_label(button),"-")){
-    //std::cout<<"Subed"<<std::endl;
-        op = E_SUB;
-    }
-    if(!strcmp(gtk_button_get_label(button),"*")){
-    //std::cout<<"Muled"<<std::endl;
-         op = E_MUL;
-    }
-    if(!strcmp(gtk_button_get_label(button),"/")){
-    //std::cout<<"Dived"<<std::endl;
-        op = E_DIV;
-    }
-    gtk_entry_set_text(display,"");
-    //std::cout<< op <<std::endl;
 }
 
 
@@ -76,8 +83,9 @@ on_button14_clicked                     (GtkButton       *button,
     disp_data = gtk_entry_get_text (display);
     operand2 = atoi(disp_data);
     ans = calculate(operand1,operand2,op) ;
-    char stringNum[20];
-    sprintf(stringNum,"%d",ans);
-    gtk_entry_set_text((display),stringNum);
-    op = E_NONE; 
+    memory = ans;
+    display_int(ans,display);
+    op = E_NONE;
+    clear = 1;
 }
+
